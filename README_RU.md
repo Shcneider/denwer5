@@ -11,8 +11,9 @@
 
 Denwer 5 содержит в себе готовые для работы компоненты:
 - nginx (к черту Apache)
-- php-fpm 7.2 (apcu, curl, mbstring, mysqli, opcache, pdo_mysql, memcached, redis)
+- php-fpm 7.2 (apcu, curl, mbstring, mysqli, opcache, pdo_mysql, memcached, redis, zip, xdebug)
 - composer
+- git
 - MySQL 5.6
 - adminer (PhpMyAdmin слишком жирный и неповоротливый)
 - redis 4.0
@@ -22,17 +23,23 @@ Denwer 5 содержит в себе готовые для работы ком�
 
 
 ## Быстрая навигация
-[Как использовать?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-использовать) 
-
-[Описание внутренней структуры](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Описание-внутренней-структуры-denwer-5)
-
-[Где положить PHP код?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код) 
-
-[Перенос Denwer на диск D](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Перенос-denwer-на-диск-d)
-
-[F.A.Q](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#faq)
-
-[Проблемы и их решения](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Проблемы-и-их-решения)
+- [Как использовать?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-использовать)  
+  - [Установка Docker](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#1-Установите-docker)
+  - [Клонируем репозиторий](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#2-Клонируйте-этот-репозиторий)
+  - [Запуск Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#3-Запуск-denwer)
+  - [Проверка состояния Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#4-Проверка-состояния-denwer)
+  - [Остановка Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#6-Остановка-denwer)
+- [Описание внутренней структуры](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Описание-внутренней-структуры-denwer-5)  
+- [Где положить PHP код?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код)   
+- [Перенос Denwer на диск D](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Перенос-denwer-на-диск-d)  
+- [F.A.Q](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#faq)  
+  - [Как узнать какой IP у Denwer?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer)
+  - [Как запустить composer?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-запустить-composer)
+  - [Где найти Adminer?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-найти-adminer)
+  - [Где найти PhpMyAdmin?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-найти-phpmyadmin)
+  - [Как с PHP подключиться к MySQL, Redis, Memcache?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-с-php-подключиться-к-mysql-redis-memcache)
+  - [Как с компа подключиться к MySQL, Redis, Memcache?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-с-компа-подключиться-к-mysql-redis-memcache)
+- [Проблемы и их решения](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Проблемы-и-их-решения)
 
 
 
@@ -122,7 +129,7 @@ denwer_nginx       nginx -g daemon off;             Up      0.0.0.0:80->80/tcp
 denwer_php         docker-php-entrypoint php-fpm    Up      9000/tcp
 denwer_redis       docker-entrypoint.sh redis ...   Up      6379/tcp
 ```
-Если что-то не работает - смотрим [Проблемы и их решения](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Проблемы-и-их-решения)
+Если что-то не работает - смотрим [проблемы и их решения](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Проблемы-и-их-решения)
 
 
 
@@ -134,10 +141,12 @@ denwer_redis       docker-entrypoint.sh redis ...   Up      6379/tcp
 /var/www/projects/default/public/index.php:14:int 1538570553
 /var/www/projects/default/public/index.php:20:string '1538570553' (length=10)
 ```
-- Если ничего не открылось - [какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer) 
+- Если ничего не открылось - значит Denwer получил другой IP адрес, а не 192.168.99.100.  
+Смотрим [какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer) 
+и переходим на http://ip
 
 **Denwer 5 поддерживает мультипроектность!**  
-Подробнее об этом читайте в [где положить PHP код?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-PHP-код)
+Подробнее об этом читайте в [мультипроектность Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код)
 
 
 
@@ -183,7 +192,7 @@ Denwer инициализировать ее пустой заново (снач
 Файлы окружениия, которые пробрасываются внутрь контейнеров.
 
 - `./projects`  
-Здесь лежат ваши проекты на PHP. (см. [Где положить PHP код](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-PHP-код))
+Здесь лежат ваши проекты на PHP. (см. [где положить PHP код](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код))
 
 - `./docker-compose.yml`  
 Описание всех контейнеров комплекса для Docker Compose.
@@ -221,6 +230,10 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 - Если не открывается, значит Denwer получил другой IP (см. [какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer))
 
 
+### Где найти PhpMyAdmin?
+Нигде. Используйте Adminer.
+
+
 ### Как с PHP подключиться к MySQL, Redis, Memcache?
 - Смотрите файл `./projects/default/index.php`, там есть примеры подключения ко всем БД.
 - Если файл потерялся, то вот креды:
@@ -252,7 +265,7 @@ Memcached:
 ports:
   - "6379:6379"
 ```
-- Запустите Denwer
+- [Запустите Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#3-Запуск-denwer)
 - Подключайтесь к внешнему IP Denwer [какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer)
 
 ## Проблемы и их решения
