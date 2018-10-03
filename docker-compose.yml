@@ -1,0 +1,86 @@
+# Denwer 5
+# Author: alex.shcneider@gmail.com
+# See README.md
+
+version: '2'
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    depends_on:
+      - php
+    container_name: "denwer_nginx"
+    ports:
+      - "80:80"
+    networks:
+      - denwer
+    volumes:
+      - ./projects/:/var/www/projects/
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  php:
+    build: ./build/php
+    restart: always
+    container_name: "denwer_php"
+    networks:
+      - denwer
+    volumes:
+      - ./projects/:/var/www/projects/
+      - ./config/php72/php.ini:/usr/local/etc/php/php.ini
+
+  mysql:
+    image: mysql:5.7
+    command: "--innodb_use_native_aio=0" # windows shared folder fail
+    restart: always
+    depends_on:
+      - php
+    container_name: "denwer_mysql"
+    #ports:
+    #  - "3306:3306"
+    networks:
+      - denwer
+    volumes:
+      - ./data/mysql:/var/lib/mysql/
+    env_file: env/mysql.env
+
+  redis:
+    image: redis:latest
+    restart: always
+    depends_on:
+      - php
+    container_name: "denwer_redis"
+    #ports:
+    #  - "6379:6379"
+    networks:
+      - denwer
+    volumes:
+      - ./data/redis:/data
+      #- ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+
+  memcached:
+    image: memcached:latest
+    restart: always
+    depends_on:
+      - php
+    container_name: "denwer_memcached"
+    #ports:
+    #  - "11211:11211"
+    networks:
+      - denwer
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    depends_on:
+      - php
+    container_name: "denwer_adminer"
+    ports:
+      - 8080:8080
+    networks:
+      - denwer
+    env_file: env/adminer.env
+
+networks:
+  denwer:

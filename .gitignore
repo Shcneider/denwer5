@@ -1,0 +1,13 @@
+.idea/
+
+# mysql data
+data/mysql
+!data/mysql/.gitkeep
+
+# redis data
+data/redis
+!data/redis/.gitkeep
+
+# projects
+/projects
+!/projects/default/public/index.php
