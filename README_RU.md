@@ -30,7 +30,7 @@ Denwer 5 содержит в себе готовые для работы ком�
   - [Проверка состояния Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#4-Проверка-состояния-denwer)
   - [Остановка Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#6-Остановка-denwer)
 - [Описание внутренней структуры](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Описание-внутренней-структуры-denwer-5)  
-- [Где положить PHP код?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код)   
+- [Куда положить PHP код?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Куда-положить-php-код)   
 - [Перенос Denwer на диск D](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Перенос-denwer-на-диск-d)  
 - [F.A.Q](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#faq)  
   - [Как узнать какой IP у Denwer?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer)
@@ -146,7 +146,7 @@ denwer_redis       docker-entrypoint.sh redis ...   Up      6379/tcp
 и переходим на http://ip
 
 **Denwer 5 поддерживает мультипроектность!**  
-Подробнее об этом читайте в [мультипроектность Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код)
+Подробнее об этом читайте в [мультипроектность Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Куда-положить-php-код)
 
 
 
@@ -192,14 +192,37 @@ Denwer инициализировать ее пустой заново (снач
 Файлы окружениия, которые пробрасываются внутрь контейнеров.
 
 - `./projects`  
-Здесь лежат ваши проекты на PHP. (см. [где положить PHP код](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Где-положить-php-код))
+Здесь лежат ваши проекты на PHP. 
+(см. [где положить PHP код](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Куда-положить-php-код))
 
 - `./docker-compose.yml`  
 Описание всех контейнеров комплекса для Docker Compose.
 
 
-## Где положить PHP код
-@todo
+## Куда положить PHP код
+Denwer предлагает два подхода по размещению кода внутри:
+- Многопроектность с поддержкой доменов для каждого проекта
+- Однопроектность по IP
+
+### Один проект, доступ по IP
+- Положите все ваши файлы в `./projects/default`
+- Ваш сайт будет доступен по IP `http://192.168.99.100` (если не работает - Denwer получил другой IP, 
+  см. [какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer) )
+- Обратите внимание, `index.php` должен находится в подпапке `public`, а не в корне проекта! (`./projects/default/public/index.php`)
+
+### Мультипроектность с поддержкой доменов для каждого проекта
+- Каждая папка внутри `./projects` является самостоятельным проектом и доступна по имени вида `*.denwer`
+  (например, проект по умолчанию `default`, который распологается в `./project/default` доступен по адресу `http://default.denwer/`)
+- Необходимо добавить запись о домене `default.denwer` в файл `C:\Windows\System32\drivers\etc\hosts` на вашем ПК:
+```text
+192.168.99.100 default.denwer
+192.168.99.100 project1.denwer
+192.168.99.100 project2.denwer
+```
+- Вместо `192.168.99.100` используйте IP вашего Denwer. 
+([Какой IP получил Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-узнать-какой-ip-у-denwer))
+- По умолчанию файл `C:\Windows\System32\drivers\etc\hosts` защищен от записи. Используйте google для разблокировки :)
+
 
 
 ## Перенос Denwer на диск D
@@ -222,7 +245,45 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 - Открываем в браузере `http://192.168.99.100`
 
 ### Как запустить composer?
-@todo
+К сожалению, запуск composer весьма геморный. Я так и не придумал, как сделать проще.
+- Запустите "Docker Quickstart Terminal" с рабочего стола.
+- [Запустите Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#3-Запуск-denwer) если он еще не запущен.
+- Выведите список докер-контейнеров командой
+```bash
+docker ps
+```
+
+Получим список запущенных контейнеров и их ID:
+```text
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+fb89fba895e6        nginx:alpine        "nginx -g 'daemon of…"   15 minutes ago      Up 15 minutes       0.0.0.0:80->80/tcp       denwer_nginx
+0990ee151622        mysql:5.7           "docker-entrypoint.s…"   15 minutes ago      Up 15 minutes       3306/tcp, 33060/tcp      denwer_mysql
+792ddf6a2d36        adminer:latest      "entrypoint.sh docke…"   15 minutes ago      Up 15 minutes       0.0.0.0:8080->8080/tcp   denwer_adminer
+45429bd1a9be        redis:latest        "docker-entrypoint.s…"   15 minutes ago      Up 15 minutes       6379/tcp                 denwer_redis
+9107c023ae3a        memcached:latest    "docker-entrypoint.s…"   15 minutes ago      Up 15 minutes       11211/tcp                denwer_memcached
+270523e08605        denwer5_php         "docker-php-entrypoi…"   15 minutes ago      Up 15 minutes       9000/tcp                 denwer_php
+```
+
+- Нас интересует контейнер c именем (NAMES) `denwer_php`
+- Смотрим `CONTAINER ID` для контейнера `denwer_php` = `270523e08605`
+- Заходим в интерактивном режиме в контейнер:
+```bash
+# указан полный контейнер id
+docker exec -it 270523e08605 bash
+# можно указать первые три символа, так быстрее
+docker exec -it 270 bash
+```
+- Мы вошли внутрь конейтера, находимся в `/var/www/html`
+```bash
+root@270523e08605:/var/www/html#
+```
+
+- Переходим внутрь нашего проекта (я перейду в проект по умочанию `default`)
+```bash
+cd /var/www/projects/default
+```
+- Выполняем `composer install` или `composer update`
 
 
 ### Где найти Adminer?
