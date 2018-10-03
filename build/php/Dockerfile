@@ -2,9 +2,9 @@ FROM php:7.2-fpm-stretch
 MAINTAINER alex.shcneider@gmail.com
 
 RUN apt-get update && \
-    apt-get install -y curl libmemcached-dev zlib1g-dev
+    apt-get install -y curl git libmemcached-dev zlib1g-dev unzip zip
 
-RUN docker-php-ext-install mysqli opcache pdo_mysql
+RUN docker-php-ext-install mysqli opcache pdo_mysql zip
 
 RUN set -ex && \
     pecl install APCu && \

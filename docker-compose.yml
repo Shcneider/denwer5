@@ -29,6 +29,7 @@ services:
     volumes:
       - ./projects/:/var/www/projects/
       - ./config/php72/php.ini:/usr/local/etc/php/php.ini
+    env_file: env/php.env
 
   mysql:
     image: mysql:5.7
