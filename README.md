@@ -24,17 +24,17 @@ Denwer 5 contains ready-to-work components:
 
 
 ## Quick links
-- [How to use?]()
-  - [Docker installation]()
-  - [Clone the repository]()
-  - [Run Denwer]()
+- [How to use?](#how-to-use)
+  - [Docker installation](#1-install-docker)
+  - [Clone the repository](#2-clone-the-repository)
+  - [Run Denwer](#3-run-denwer)
 
 
 
 
 ## How to use?
 
-### 1. Docker installation
+### 1. Install Docker
 
 [Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/) - for Windows 7, 8, 10 Home  
 ```text
@@ -55,7 +55,7 @@ before disabling Hyper-V.
 If you are not sure or use VirtualBox - put Docker Toolbox for Windows above.
 ```
 
-[Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/) - для macOS
+[Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/) - for macOS
   
 
 

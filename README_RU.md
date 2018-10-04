@@ -23,7 +23,7 @@ Denwer 5 содержит в себе готовые для работы ком�
 
 
 ## Быстрая навигация
-- [Как использовать?](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#Как-использовать)  
+- [Как использовать?](#Как-использовать)  
   - [Установка Docker](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#1-Установите-docker)
   - [Клонируем репозиторий](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#2-Клонируйте-этот-репозиторий)
   - [Запуск Denwer](https://github.com/Shcneider/denwer5/blob/master/README_RU.md#3-Запуск-denwer)
