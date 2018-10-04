@@ -1,5 +1,4 @@
 # Denwer 5 (Docker-flavored)
-
 About ten years ago Dmitry Koterov created the excellent project under the name [Denwer](http://denwer.ru).  
 
 Denwer contained all necessary for local development for PHP (Apache, PHP + mods, Mysql, sendmail, etc) 
@@ -28,6 +27,19 @@ Denwer 5 contains ready-to-work components:
   - [Docker installation](#1-install-docker)
   - [Clone the repository](#2-clone-the-repository)
   - [Run Denwer](#3-run-denwer)
+  - [Check Denwer status](#4-check-denwers-status)
+  - [Open the project in the browser](#5-open-the-project-in-the-browser)
+  - [Stop Denwer](#6-stop-denwer)
+- [Denwer structure](#denwer-5-structure)  
+- [How to place and run php code](#how-to-place-and-run-php-code) 
+- [Transfer Denwer to drive D](#transfer-denwer-to-drive-d) 
+- [F.A.Q.](#faq)
+
+
+
+
+
+- [Troubleshooting](#troubleshooting) 
 
 
 
@@ -50,20 +62,17 @@ Select all optional components. (Full Installation):
 [Docker for Windows](https://docs.docker.com/docker-for-windows/install/#start-docker-for-windows) - for Windows 10 Professional, Enterprise  
 ```text
 Read the instructions carefully!
-You will need to enable support for Hyper-V, after which virtualbucks will not be able to start in VirtualBox
+You will need to enable support for Hyper-V, after which VMs will not be able to start in VirtualBox
 before disabling Hyper-V.
-If you are not sure or use VirtualBox - put Docker Toolbox for Windows above.
+If you are not sure or use VirtualBox - use Docker Toolbox for Windows above.
 ```
 
 [Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/) - for macOS
   
 
 
-### 2. Clone the repository
 
-To simplify further explanations, we will install Denwer into the `Denwer` folder,
-and our Windows username is `User`.  
-Full installation path: `C:/Users/User/Denwer`
+### 2. Clone the repository
 
 **Important for WINDOWS Users**  
 ```text
@@ -73,14 +82,176 @@ For example, you can clone the repository in [C:/Users/$USER/Denwer],
 where $USER is your Windows username.
 ```
 
+To simplify further explanations, we will install Denwer into the `Denwer` folder,
+and our Windows username is `User`.  
+Full installation path: `C:/Users/User/Denwer`
+
 P.S. There is a way to get around this limitation and install Denwer in an arbitrary directory 
-(see [Transfer Denwer to drive D]()).
+(see [Transfer Denwer to drive D](#transfer-denwer-to-drive-d)).
 
 
 ### 3. Run Denwer
+- Launch "Docker Quickstart Terminal" from the desktop.  
+**The first launch can be long, because VM is created in VirtualBox**
+
+- Go to the Denwer folder  
+```bash
+# absolute path is similar to unix format /drive/dir1/dir2/....
+cd /c/Users/User/Denwer
+# or
+cd ~/Denwer
+```
+
+- run Denwer (the first start will be long, the custom docker's PHP-image is built)
+```bash
+docker-compose up -d
+```
+
+### 4. Check Denwer's status
+- Launch "Docker Quickstart Terminal" from the desktop.  
+- Go to the Denwer folder 
+```bash
+cd /c/Users/User/Denwer
+```
+- Check status of the containers
+```bash
+docker-compose ps
+```
+
+- All containers are up and running. (State = Up).
+```text
+      Name                    Command               State           Ports
+----------------------------------------------------------------------------------
+denwer_adminer     entrypoint.sh docker-php-e ...   Up      0.0.0.0:8080->8080/tcp
+denwer_memcached   docker-entrypoint.sh memcached   Up      11211/tcp
+denwer_mysql       docker-entrypoint.sh --inn ...   Up      3306/tcp, 33060/tcp
+denwer_nginx       nginx -g daemon off;             Up      0.0.0.0:80->80/tcp
+denwer_php         docker-php-entrypoint php-fpm    Up      9000/tcp
+denwer_redis       docker-entrypoint.sh redis ...   Up      6379/tcp
+```
+If something is not working - see [troubleshooting](#troubleshooting)
+
+
+
+### 5. Open the project in the browser
+- Go to `http://192.168.99.100` in the browser
+- We see the output of the test PHP script, which is trying to connect MySQL, Redis and Memcache
+```text
+/var/www/projects/default/public/index.php:8:string '2018-10-03 12:42:33' (length=19)
+/var/www/projects/default/public/index.php:14:int 1538570553
+/var/www/projects/default/public/index.php:20:string '1538570553' (length=10)
+```
+- If nothing works, then Denwer received a different IP address (not 192.168.99.100).  
+See [how to find the Denwer's external IP](#how-to-find-denwer-external-ip) 
+
+**Denwer 5 supports multi-project!**  
+Read more about [Denwer's multi-project](#how-to-place-and-run-php-code)
+
+
+### 6. Stop Denwer
+- Launch "Docker Quickstart Terminal" from the desktop.  
+- Go to the Denwer folder 
+```bash
+cd /c/Users/User/Denwer
+```
+
+- Stop Denwer
+```bash
+docker-compose down
+```
+
+- Check status of the containers
+```bash
+docker-compose ps
+```
+
+- None running container
+```text
+Name   Command   State   Ports
+------------------------------
+```
+
+
+## Denwer 5 structure
+- `./build`  
+Here are the Dockerfiles of custom containers.
+
+- `./config`  
+Here are the configs of components that are forwarded to the inside of the container (for example, nginx.conf, php.ini).   
+After configs change you need to restart Denwer!
+
+- `./data`  
+Permanent storage for stateful containers (DB).
+You can safely delete all files (except the .gitkeep file) inside the `mysql` or` redis` folders, it will reset the database and force
+Denwer initialize it empty again (first stop Denwer, then delete files, then start Denwer).
+
+- `./env`  
+Environment files that are bound in containers.
+
+- `./projects`  
+Here are your PHP projects.
+(see. [How to place and run php code](#how-to-place-and-run-php-code))
+
+- `./docker-compose.yml`  
+Description of all project containers for Docker Compose.
 
 
 
 
+## How to place and run PHP code
+@todo translate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Transfer Denwer to drive D
+@todo translate
+
+
+## F.A.Q
+
+### How to find Denwer external IP?
+- Launch "Docker Quickstart Terminal" from the desktop.
+- Display a list of docker-machines
+```bash
+docker-machine ls
+```
+- Look at the IP in the URL column (in my case IP = 192.168.99.100):
+```text
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+default   *        virtualbox   Running   tcp://192.168.99.100:2376           v18.06.1-ce
+```
+- Go to `http://192.168.99.100`
+
+
+
+
+
+
+
+
+
+## Troubleshooting
+@todo
 
 [Русская документация](https://github.com/Shcneider/denwer5/blob/master/README_RU.md)
