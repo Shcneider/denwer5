@@ -181,14 +181,12 @@ Name   Command   State   Ports
 
 
 ## Denwer 5 structure
-- `./build`  
-Here are the Dockerfiles of custom containers.
 
-- `./config`  
+- `./etc`  
 Here are the configs of components that are forwarded to the inside of the container (for example, nginx.conf, php.ini).   
 After configs change you need to restart Denwer!
 
-- `./data`  
+- `./var`  
 Permanent storage for stateful containers (DB).
 You can safely delete all files (except the .gitkeep file) inside the `mysql` or` redis` folders, it will reset the database and force
 Denwer initialize it empty again (first stop Denwer, then delete files, then start Denwer).
@@ -196,7 +194,7 @@ Denwer initialize it empty again (first stop Denwer, then delete files, then sta
 - `./env`  
 Environment files that are bound in containers.
 
-- `./projects`  
+- `./home`  
 Here are your PHP projects.
 (see. [How to place and run php code](#how-to-place-and-run-php-code))
 
@@ -212,14 +210,14 @@ Denwer offers two approaches for placing PHP code inside:
 - Single-project with IP access
 
 ### One project, access via IP
-- Put all your files in `./projects/default`
+- Put all your files in `./home/default`
 - Your site will be accessible by IP `http://192.168.99.100` (if not working - Denwer got another IP, 
   see [how to find the Denwer's external IP](#how-to-find-denwer-external-ip)  )
-- Note that `index.php` should be located in the `public` subfolder, not at the root! (good: `./projects/default/public/index.php`)
+- Note that `index.php` should be located in the `public` subfolder, not at the root! (good: `./home/default/public/index.php`)
 
 ### Multiple-projects with domain support for each project
-- Each folder inside `./Projects` is a project and is available by the name of the form `*.denwer`
-  (for example, the default project `default`, which is located in `./project/default` is available at `http://default.denwer/`)
+- Each folder inside `./home` is a project and is available by the name of the form `*.denwer`
+  (for example, the default project `default`, which is located in `./home/default` is available at `http://default.denwer/`)
 - You need to add an entry for the `default.denwer` domain to the file `C:\Windows\System32\drivers\etc\hosts` on your PC
 ```text
 192.168.99.100 default.denwer

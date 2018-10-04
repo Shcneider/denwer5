@@ -1,13 +1,13 @@
 .idea/
 
 # mysql data
-data/mysql
-!data/mysql/.gitkeep
+var/mysql
+!var/mysql/.gitkeep
 
 # redis data
-data/redis
-!data/redis/.gitkeep
+var/redis
+!var/redis/.gitkeep
 
 # projects
-/projects
-!/projects/default/public/index.php
+/home
+!/home/default/public/index.php

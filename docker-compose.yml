@@ -17,8 +17,8 @@ services:
     networks:
       - denwer
     volumes:
-      - ./projects/:/var/www/projects/
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./home/:/var/www/projects/
+      - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
 
   php:
     image: shcneider/php7.2-fpm-stretch-composer-extensions:latest
@@ -28,8 +28,8 @@ services:
     networks:
       - denwer
     volumes:
-      - ./projects/:/var/www/projects/
-      - ./config/php72/php.ini:/usr/local/etc/php/php.ini
+      - ./home/:/var/www/projects/
+      - ./etc/php72/php.ini:/usr/local/etc/php/php.ini
     env_file: env/php.env
 
   mysql:
@@ -44,7 +44,7 @@ services:
     networks:
       - denwer
     volumes:
-      - ./data/mysql:/var/lib/mysql/
+      - ./var/mysql:/var/lib/mysql/
     env_file: env/mysql.env
 
   redis:
@@ -58,8 +58,7 @@ services:
     networks:
       - denwer
     volumes:
-      - ./data/redis:/data
-      #- ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./var/redis:/data
 
   memcached:
     image: memcached:latest
