@@ -23,7 +23,7 @@ Denwer 5 contains ready-to-work components:
 
 
 ## Quick links
-- [How to use?](#how-to-use)
+- [How to use?](#how-to-use) 
     - [Docker installation](#1-install-docker)
     - [Clone the repository](#2-clone-the-repository)
     - [Run Denwer](#3-run-denwer)
@@ -36,14 +36,14 @@ Denwer 5 contains ready-to-work components:
     - [Multiple projects with domains](#multiple-projects-with-domain-support-for-each-project)
 - [Transfer Denwer to drive D](#transfer-denwer-to-drive-d)
 - [F.A.Q.](#faq)
-
-
-
-
-
-
-
-
+    - [How to find Denwer external IP](#how-to-find-denwer-external-ip)
+    - [How to run Composer?](#how-to-run-composer)
+    - [Where is Adminer?](#where-is-adminer)
+    - [Where is PhpMyAdmin?](#where-is-phpmyadmin)
+    - [How to connect to MySQL, Redis, Memcache from PHP?](#how-to-connect-to-mysql-redis-memcache-from-php)
+    - [How to connect to MySQL, Redis, Memcache from PC?](#how-to-connect-to-mysql-redis-memcache-from-pc)
+    - [How to enable PHP extension?](#how-to-enable-php-extension)
+    - [How to change PHP version?](#how-to-change-php-version)
 - [Troubleshooting](#troubleshooting) 
 
 
@@ -225,7 +225,7 @@ Denwer offers two approaches for placing PHP code inside:
 192.168.99.100 project2.denwer
 ```
 - Instead of `192.168.99.100` use your Denwer external IP 
-([how to find the Denwer's external IP](#how-to-find-denwer-external-ip)  )
+([how to find the Denwer's external IP](#how-to-find-denwer-external-ip))
 - By default, the file `C:\Windows\System32\drivers\etc\hosts` is write-protected. Use google to unlock :)
 
 
@@ -271,9 +271,98 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 - Go to `http://192.168.99.100`
 
 
+### How to run Composer?
+@todo
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Where is Adminer?
+- Go to `http://192.168.99.100:8080`. (see [MySQL credentials](#how-to-connect-to-mysql-redis-memcache-from-php)).
+- If it does not open, then Denwer has another IP ([how to find the Denwer's external IP](#how-to-find-denwer-external-ip))
+
+
+### Where is PhpMyAdmin?
+Nowhere. Use Adminer.
+
+
+### How to connect to MySQL, Redis, Memcache from PHP?
+- See `./home/default/index.php`, is an example to connect for MySQL, Redis and Memcached.
+- If example is lost, use credentials:
+```text
+Mysql:
+    host=mysql
+    port=3306
+    user=root
+    pass=root
+    
+Redis:
+    host=redis
+    port=6379
+    
+Memcached:
+    host=memcached
+    port=11211        
+```
+
+
+### How to connect to MySQL, Redis, Memcache from PC?
+@todo
+
+
+### How to enable PHP extension?
+- mkdir `./build/php`
+- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image` into `./build/php`
+- Add custom extensions in `Dockerfile`
+- Edit `docker-compose.yml`: comment `image` section of service `php`, uncomment `build` of service `php`
+- Run `docker-compose build`
+- Run Denwer
+- Your custom php image is ready and work!
+
+### How to change PHP version?
+- mkdir `./build/php`
+- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image` into `./build/php`
+- Change PHP version in `Dockerfile` (first line)
+- Edit `docker-compose.yml`: comment `image` section of service `php`, uncomment `build` of service `php`
+- Run `docker-compose build`
+- Run Denwer
+- Your custom php image is ready and work!
 
 
 
@@ -281,4 +370,4 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 ## Troubleshooting
 @todo
 
-[Русская документация](https://github.com/Shcneider/denwer5/blob/master/README_RU.md)
+[Русская документация](README_RU.md)

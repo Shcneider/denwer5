@@ -43,7 +43,7 @@ Denwer 5 содержит в себе готовые для работы ком�
   - [Как с PHP подключиться к MySQL, Redis, Memcache?](#Как-с-php-подключиться-к-mysql-redis-memcache)
   - [Как с компа подключиться к MySQL, Redis, Memcache?](#Как-с-компа-подключиться-к-mysql-redis-memcache)
   - [Как добавить расширение к PHP](#Как-мне-включить-расширение-php-любое)
-  - [Как поменять версию PHP](Как-поменять-версию-php-на-71-70-56)
+  - [Как поменять версию PHP](#Как-поменять-версию-php-на-71-70-56)
 - [Проблемы и их решения](#Проблемы-и-их-решения)
 
 
@@ -270,6 +270,7 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 ```
 - Открываем в браузере `http://192.168.99.100`
 
+
 ### Как запустить composer?
 К сожалению, запуск composer весьма геморный. Я так и не придумал, как сделать проще.
 - Запустите "Docker Quickstart Terminal" с рабочего стола.
@@ -357,25 +358,22 @@ ports:
 
 
 ### Как мне включить расширение PHP (любое)?
-- mkdir ./build/
-- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image`
+- mkdir `./build/php`
+- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image` into `./build/php`
 - Add custom extensions in `Dockerfile`
-- Edit docker-compose.yml: comment `image` section of service `php`, uncomment `build` of service `php`
+- Edit `docker-compose.yml`: comment `image` section of service `php`, uncomment `build` of service `php`
 - Run `docker-compose build`
 - Run Denwer
 - Your custom php image is ready and work!
 
 ### Как поменять версию PHP на 7.1, 7.0, 5.6?
-- mkdir ./build/
-- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image`
+- mkdir `./build/php`
+- Clone repository `https://github.com/Shcneider/denwer5-php7.2-docker-image` into `./build/php`
 - Change PHP version in `Dockerfile` (first line)
-- Edit docker-compose.yml: comment `image` section of service `php`, uncomment `build` of service `php`
+- Edit `docker-compose.yml`: comment `image` section of service `php`, uncomment `build` of service `php`
 - Run `docker-compose build`
 - Run Denwer
 - Your custom php image is ready and work!
-
-
-
 
 
 
