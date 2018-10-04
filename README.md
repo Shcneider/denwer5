@@ -24,22 +24,30 @@ Denwer 5 contains ready-to-work components:
 
 ## Quick links
 - [How to use?](#how-to-use)
-  - [Docker installation](#1-install-docker)
-  - [Clone the repository](#2-clone-the-repository)
-  - [Run Denwer](#3-run-denwer)
-  - [Check Denwer status](#4-check-denwers-status)
-  - [Open the project in the browser](#5-open-the-project-in-the-browser)
-  - [Stop Denwer](#6-stop-denwer)
-- [Denwer structure](#denwer-5-structure)  
-- [How to place and run php code](#how-to-place-and-run-php-code) 
-- [Transfer Denwer to drive D](#transfer-denwer-to-drive-d) 
+    - [Docker installation](#1-install-docker)
+    - [Clone the repository](#2-clone-the-repository)
+    - [Run Denwer](#3-run-denwer)
+    - [Check Denwer status](#4-check-denwers-status)
+    - [Open the project in the browser](#5-open-the-project-in-the-browser)
+    - [Stop Denwer](#6-stop-denwer)
+- [Denwer structure](#denwer-5-structure)
+- [How to place and run php code](#how-to-place-and-run-php-code)
+    - [One project, access via IP](#one-project-access-via-ip)
+    - [Multiple projects with domains](#multiple-projects-with-domain-support-for-each-project)
+- [Transfer Denwer to drive D](#transfer-denwer-to-drive-d)
 - [F.A.Q.](#faq)
 
 
 
 
 
+
+
+
 - [Troubleshooting](#troubleshooting) 
+
+
+
 
 
 
@@ -199,33 +207,54 @@ Description of all project containers for Docker Compose.
 
 
 ## How to place and run PHP code
-@todo translate
+Denwer offers two approaches for placing PHP code inside:
+- Multiple-projects with domain support for each project
+- Single-project with IP access
 
+### One project, access via IP
+- Put all your files in `./projects/default`
+- Your site will be accessible by IP `http://192.168.99.100` (if not working - Denwer got another IP, 
+  see [how to find the Denwer's external IP](#how-to-find-denwer-external-ip)  )
+- Note that `index.php` should be located in the `public` subfolder, not at the root! (good: `./projects/default/public/index.php`)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Multiple-projects with domain support for each project
+- Each folder inside `./Projects` is a project and is available by the name of the form `*.denwer`
+  (for example, the default project `default`, which is located in `./project/default` is available at `http://default.denwer/`)
+- You need to add an entry for the `default.denwer` domain to the file `C:\Windows\System32\drivers\etc\hosts` on your PC
+```text
+192.168.99.100 default.denwer
+192.168.99.100 project1.denwer
+192.168.99.100 project2.denwer
+```
+- Instead of `192.168.99.100` use your Denwer external IP 
+([how to find the Denwer's external IP](#how-to-find-denwer-external-ip)  )
+- By default, the file `C:\Windows\System32\drivers\etc\hosts` is write-protected. Use google to unlock :)
 
 
 
 ## Transfer Denwer to drive D
-@todo translate
+- Stop Denwer
+- Switch off default docker machine 
+```bash
+docker-machine stop default
+```
+- Copy Denwer to new location:  
+    - Old location: `C:\Users\User\Denwer`  
+    - New location: `D:\Denwer` (you can choose any location)  
+- Open VirtualBox, go to Settings of Docker VM (named default)
+- Go to `Shared folders` config and add a new Shared folder:  
+    - Path: `D:\Denwer`  
+    - Name: `d/Denwer`  
+    - Auto mount: yes  
+- Note that `Name` must repeat `Path` considering the features of mapping the path of Windows to Linux:
+    - `E:\Work\PurpleGames\Denwer` => `e/Work/PurpleGames/Denwer`
+    - `D:\SomeFolder\DENWER` => `d/SomeFolder/DENWER`
+- Start default Docker Machine
+```bash
+docker-machine start default
+```
+- Run Denwer  
+If something is not work - see [Troubleshooting](#troubleshooting)
 
 
 ## F.A.Q
