@@ -10,12 +10,12 @@ This project is an attempt to recreate a complex containing everything you need 
 while maintaining ease of use and ease of installation (hmm ..).
 
 Denwer 5 contains ready-to-work components:
-- nginx (fuck Apache)
+- nginx 
 - php-fpm 7.2 (apcu, curl, mbstring, mysqli, opcache, pdo_mysql, memcached, redis, zip, xdebug)
 - composer
 - git
 - MySQL 5.6
-- adminer (PhpMyAdmin sucks)
+- adminer 
 - redis 4.0
 - memcache 4.6.3
 - something is missing? use pull-request! 

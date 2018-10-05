@@ -11,3 +11,6 @@ var/redis
 # projects
 /home
 !/home/default/public/index.php
+
+# build ignore
+/build
